@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blog Site</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/standard.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar" ></div>
+<div class="container">
+    <h1>Tagged Posts</h1>
+
+
+    <div class="row">
+        <div th:each="blog:${postList}">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 th:text="${blog.title}"></h2>
+                    </div>
+                    <div class="panel-body">
+                        <strong><p th:text="${blog.author}"/></strong>
+                        <p th:text="${blog.blogEntry}" />
+                        <span>Tags: </span>
+                        <span th:each="tag:${blog.tags}">
+                            <a th:href="@{/posts/} + ${tag.phrase}" th:text="${tag.phrase}"></a>
+                        </span>
+                    </div>
+                    <div class="panel-footer">
+                        <!-- Link to Update -->
+                        <a th:href="@{'/posts/update/{id}'(id=${blog.id})}"><button class="btn btn-secondary">Update</button></a>
+                        <!-- Link to Show  -->
+                        <!--  Link to Destroy -->
+                        <form action="#" th:action="@{'/posts/{id}'(id=${blog.id})}" th:method="delete"
+                              class="form-horizontal">
+                            <div class="form-group">
+                                <input type="hidden" name="_method" value="delete"/>
+                                <button type="submit" class="btn btn-danger btn-block" th:text="Delete">Delete</button>
+                            </div>
+                        </form>
+                        Buttons
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a th:href="@{/posts/new}"><button class="btn btn-primary">Create a New Blog Post</button></a>
+
+</div>
+<script src="../../webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="../../webjars/jquery/1.9.1/jquery.min.js"></script>
+
+</body>
+</html>
